@@ -84,6 +84,9 @@ function highlight() {
             var img = event.currentTarget;
             const a = img.parentNode.parentNode.id;
             currentClicked = a;
+            if (img.parentNode.id != 'blue_ricochet') {
+                hideButtons();
+            }
             if (img.parentNode.id == 'blue_titan') {
                 for (var i = 1; i <= 64; i++) {
                     document.getElementById(i).style.backgroundColor = "white";
@@ -550,6 +553,7 @@ function highlight() {
                         document.getElementById(Number(a) - 9).style.backgroundColor = "grey";
                     }
                 }
+                rotateRicochet();
             }
             if (img.parentNode.id == 'red_sricochet') {
                 for (var i = 1; i <= 64; i++) {
@@ -750,7 +754,7 @@ function highlight() {
                         document.getElementById(Number(a) - 9).style.backgroundColor = "grey";
                     }
                 }
-                rotateBlueRicochet(img);
+                rotateRicochet(img);
             }
             const piece_id = img.parentNode.parentNode.id;
             var piece_text = img.parentNode.parentNode.innerHTML;
@@ -763,33 +767,37 @@ function highlight() {
 
 highlight();
 
-BlueRotateTemp = "right";
+RotateTemp = "right";
 
-function rotateBlueRicochet(blueRicochet) {
+function rotateRicochet(Ricochet) {
     const button1 = document.getElementById("button1");
     const button2 = document.getElementById("button2");
-    // const blueRicochet = document.getElementById("blue_ricochet");
     button1.style.visibility = 'visible';
     button2.style.visibility = 'visible';
 
     button1.addEventListener("click", function () {
-        if (BlueRotateTemp == 'right') {
-            blueRicochet.parentNode.style.transform = 'rotate(90deg)';
-            BlueRotateTemp = 'left';
+        if (RotateTemp == 'right') {
+            Ricochet.parentNode.style.transform = 'rotate(90deg)';
+            RotateTemp = 'left';
             clearHighlights();
+            hideButtons();
         }
     });
 
     button2.addEventListener("click", function () {
-        if (BlueRotateTemp == 'left') {
-            blueRicochet.parentNode.style.transform = 'rotate(0deg)';
-            BlueRotateTemp = 'right';
+        if (RotateTemp == 'left') {
+            Ricochet.parentNode.style.transform = 'rotate(0deg)';
+            RotateTemp = 'right';
             clearHighlights();
+            hideButtons();
         }
     });
 }
 
-
+function hideButtons() {
+    button1.style.visibility = 'hidden';
+    button2.style.visibility = 'hidden';
+}
 
 // Global variables to store the selected piece and its original position
 let selectedPiece = null;
@@ -863,7 +871,7 @@ function shootCanon() {
                         blue_bullet.style.translate.transition = '0.5s';
                         blue_bullet.style.translate.transitionDelay = '0.1s';
                         blue_bullet.style.translate = '-' + (square_width * j) + 'px ' + (square_width * i) + 'px';
-        
+
                     }
                 }
             }
@@ -873,7 +881,7 @@ function shootCanon() {
                         blue_bullet.style.translate.transition = '0.5s';
                         blue_bullet.style.translate.transitionDelay = '0.1s';
                         blue_bullet.style.translate = (square_width * j) + 'px ' + (square_width * i) + 'px';
-        
+
                     }
                 }
 
@@ -897,6 +905,6 @@ function endGame(a) {
         alert("Red has won!");
     }
 }
-function emptyFunction(){
+function emptyFunction() {
     console.log('empty');
 }
